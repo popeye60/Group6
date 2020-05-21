@@ -44,5 +44,16 @@ $app->get('/login/{user}/{password}', function (Request $request, Response $resp
 
     return $this->response->withJson($sth);
 });
+$app->post('/updateRoom/{bl_id}/{old_room}/{new_room}', function (Request $request, Response $response, array $args) {
+    $bl_id = $args['bl_id'];
+    $old_room = $args['old_room'];
+    $new_room = $args['new_room'];
+    $sql = "UPDATE rooms SET room_status = '1' WHERE room_name = '$old_room'";
+    $this->db->query($sql);
+    $sql2 = "UPDATE book_log SET bl_room = $new_room where bl_id = $bl_id";
+    $this->db->query($sql2);
+    $sql3 = "UPDATE rooms SET room_status = '2' WHERE room_id = '$new_room'";
+    $this->db->query($sql3);
+});
 
 $app->run();
