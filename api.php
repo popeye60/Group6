@@ -33,17 +33,14 @@ $container ['db'] = function ($c) {
     return $pdo;
 };
 
-$app->get('/login/{user}/{password}', function (Request $request, Response $response, array $args) {
+$app->get('/login', function (Request $request, Response $response, array $args) {
     session_start();
-    $user = $args['user'];
-    $pass = $args["password"];
-    $sql="SELECT * FROM users
-                  WHERE  username='".$user."' 
-                  AND  password='".$pass."' ";
+    $sql="SELECT * FROM users";
     $sth = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
     return $this->response->withJson($sth);
 });
+
 $app->post('/updateRoom/{bl_id}/{old_room}/{new_room}', function (Request $request, Response $response, array $args) {
     $bl_id = $args['bl_id'];
     $old_room = $args['old_room'];
